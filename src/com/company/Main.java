@@ -14,7 +14,7 @@ public class Main {
         terminal.enterPrivateMode();
 
         //Create the player and place it in the middle of the game
-        Player player = new Player(50,10);
+        Player player = new Player(10,10);
 
         //Create the enemies
         Enemy[] enemies = new Enemy[4];
@@ -51,17 +51,25 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         for (Enemy enemy : enemies) {
 
             if (enemy.x != player.x) {
-                int dx = player.x - (int)enemy.x;
-                enemy.x += (dx > 0 ? 1 : -1); // Förenkla logiken
+                int diffx = player.x - enemy.x;
+                if (diffx > 0)
+                    enemy.x = enemy.x + 1;
+                else
+                    enemy.x = enemy.x - 1;
+//               enemy.x += (diffx > 0 ? 1 : -1);
             }
 
             if (enemy.y != player.y) {
-                int dy = player.y - (int)enemy.y;
-                enemy.y += (dy > 0 ? 1 : -1);
+                int diffy = player.y - enemy.y;
+                if (diffy > 0)
+                    enemy.y = enemy.y + 1;
+                else
+                    enemy.y = enemy.y - 1;
+                // enemy.y += (diffy > 0 ? 1 : -1);
             }
 
             //Check if we are game over?
-            if ((int)enemy.x == player.x && (int)enemy.y == player.y) // ta bort int? null??
+            if (enemy.x == player.x && enemy.y == player.y)
                 return true;
         }
         return false;
@@ -79,7 +87,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 
         //print out the enemies
         for (Enemy enemy : enemies) {
-            terminal.moveCursor((int)enemy.x, (int)enemy.y);
+            terminal.moveCursor(enemy.x, enemy.y);
             terminal.putCharacter(enemy.displaychar); // lägga in eller ta ut från emeny
         }
 
@@ -104,20 +112,20 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         switch(key.getKind())
         {
             case ArrowDown:
-                if (player.y < 25)
-                    player.y = player.y + 2;
+                if (player.y < 20)
+                    player.y = player.y + 1;
                 break;
             case ArrowUp:
-                if (player.y > 5)
-                    player.y = player.y - 2;
+                if (player.y > 0)
+                    player.y = player.y - 1;
                 break;
             case ArrowLeft:
-                if (player.x > 5)
-                    player.x = player.y - 2;
+                if (player.x > 0)
+                    player.x = player.x - 1;
                 break;
             case ArrowRight:
-                if (player.x < 95)
-                    player.x = player.x + 2;
+                if (player.x < 20)
+                    player.x = player.x + 1;
                 break;
         }
 
