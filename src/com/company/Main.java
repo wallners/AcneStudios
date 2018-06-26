@@ -32,7 +32,7 @@ public class Main {
             updateScreen(player, terminal, enemies);
             Wall wall = new Wall(terminal, "maze-wall");
             movePlayer(player, terminal, wall);
-            gameOver = gameLogic(player, enemies);
+            gameOver = gameLogic(player, enemies, wall);
         }
 
         printText(5,5,"Game Over", terminal);
@@ -48,7 +48,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 }
 
     // Move all the enemies and return true if a monster has killed the player
-    private static boolean gameLogic(Player player, Enemy[] enemies) {
+    private static boolean gameLogic(Player player, Enemy[] enemies, Wall wall) {
 
         //Move the enemies towards the player
 
@@ -56,20 +56,22 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 
             if (enemy.x != player.x) {
                 int diffx = player.x - enemy.x;
-                if (diffx > 0)
+                if (diffx > 0 && wall.wallList[enemy.y][enemy.x + 1]) {
                     enemy.x = enemy.x + 1;
-                else
+                }
+                else if (wall.wallList[enemy.y][enemy.x - 1]) {
                     enemy.x = enemy.x - 1;
-//               enemy.x += (diffx > 0 ? 1 : -1);
+                }
             }
 
             if (enemy.y != player.y) {
                 int diffy = player.y - enemy.y;
-                if (diffy > 0)
+                if (diffy > 0 && wall.wallList[enemy.y + 1][enemy.x]) {
                     enemy.y = enemy.y + 1;
-                else
+                }
+                else if (wall.wallList[enemy.y - 1][enemy.x]) {
                     enemy.y = enemy.y - 1;
-                // enemy.y += (diffy > 0 ? 1 : -1);
+                }
             }
 
             //Check if we are game over?
