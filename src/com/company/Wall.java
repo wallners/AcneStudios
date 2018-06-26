@@ -13,13 +13,13 @@ public class Wall {
     int x;
     int y = 0;
 
-    public boolean[][] wallList;
+    public boolean[][] isWall;
 
 
     public Wall(Terminal terminal, String filename) {
 
         try {
-            wallList = new boolean[30][100];
+            isWall = new boolean[30][100];
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNext()) {
                 x = 0;
@@ -28,9 +28,9 @@ public class Wall {
                     terminal.moveCursor(x, y);
                     if (c != ' ') {
                         terminal.putCharacter(c);
-                        wallList[y][x]= false;
+                        isWall[y][x]= false;
                     } else {
-                        wallList[y][x] = true;
+                        isWall[y][x] = true;
                     }
                     x++;
                 }

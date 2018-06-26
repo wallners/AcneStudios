@@ -23,7 +23,7 @@ public class Main {
         enemies[2] = new Enemy(5,15);
         enemies[3] = new Enemy(15,15);
 
-
+        terminal.setCursorVisible(false);
 
         boolean gameOver = false;
 
@@ -56,20 +56,20 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 
             if (enemy.x != player.x) {
                 int diffx = player.x - enemy.x;
-                if (diffx > 0 && wall.wallList[enemy.y][enemy.x + 1]) {
+                if (diffx > 0 && wall.isWall[enemy.y][enemy.x + 1]) {
                     enemy.x = enemy.x + 1;
                 }
-                else if (wall.wallList[enemy.y][enemy.x - 1]) {
+                else if (wall.isWall[enemy.y][enemy.x - 1]) {
                     enemy.x = enemy.x - 1;
                 }
             }
 
             if (enemy.y != player.y) {
                 int diffy = player.y - enemy.y;
-                if (diffy > 0 && wall.wallList[enemy.y + 1][enemy.x]) {
+                if (diffy > 0 && wall.isWall[enemy.y + 1][enemy.x]) {
                     enemy.y = enemy.y + 1;
                 }
-                else if (wall.wallList[enemy.y - 1][enemy.x]) {
+                else if (wall.isWall[enemy.y - 1][enemy.x]) {
                     enemy.y = enemy.y - 1;
                 }
             }
@@ -120,22 +120,22 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         {
             case ArrowDown:
 
-                if (wall.wallList[player.y + 1][player.x]) {
+                if (wall.isWall[player.y + 1][player.x]) {
                     player.y = player.y + 1;
                 }
                 break;
             case ArrowUp:
-                if (wall.wallList[player.y - 1][player.x]) {
+                if (wall.isWall[player.y - 1][player.x]) {
                     player.y = player.y - 1;
                 }
                 break;
             case ArrowLeft:
-                if (wall.wallList[player.y][player.x - 1]) {
+                if (wall.isWall[player.y][player.x - 1]) {
                     player.x = player.x - 1;
                 }
                 break;
             case ArrowRight:
-                if (wall.wallList[player.y][player.x + 1]) {
+                if (wall.isWall[player.y][player.x + 1]) {
                     player.x = player.x + 1;
                 }
                 break;
