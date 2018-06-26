@@ -14,7 +14,7 @@ public class Main {
         terminal.enterPrivateMode();
 
         //Create the player and place it in the middle of the game
-        Player player = new Player(10,10);
+        Player player = new Player(10,20);
 
         //Create the enemies
         Enemy[] enemies = new Enemy[4];
@@ -23,14 +23,14 @@ public class Main {
         enemies[2] = new Enemy(5,15);
         enemies[3] = new Enemy(15,15);
 
-        Wall wall = new Wall(terminal, "maze-wall");
+
 
         boolean gameOver = false;
 
         while(!gameOver){
 
             updateScreen(player, terminal, enemies);
-            wall = new Wall(terminal, "maze-wall");
+            Wall wall = new Wall(terminal, "maze-wall");
             movePlayer(player, terminal, wall);
             gameOver = gameLogic(player, enemies);
         }
@@ -51,6 +51,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
     private static boolean gameLogic(Player player, Enemy[] enemies) {
 
         //Move the enemies towards the player
+
         for (Enemy enemy : enemies) {
 
             if (enemy.x != player.x) {
@@ -112,22 +113,27 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         }
         while(key == null);
 
+
+        System.out.println(player.y + " " + player.x);
         switch(key.getKind())
         {
             case ArrowDown:
-                if (wall.yWallList.get(0).get(0));
+
+                if (wall.wallList[player.y +1][player.x]) {
                     player.y = player.y + 1;
+                }
+
                 break;
             case ArrowUp:
-                if (player.y > 0)
+                if (true)
                     player.y = player.y - 1;
                 break;
             case ArrowLeft:
-                if (player.x > 0)
+                if (true)
                     player.x = player.x - 1;
                 break;
             case ArrowRight:
-                if (player.x < 20)
+                if (true)
                     player.x = player.x + 1;
                 break;
         }

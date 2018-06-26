@@ -12,29 +12,28 @@ import java.util.Scanner;
 public class Wall {
     int x;
     int y = 0;
-    public List<List<Boolean>> yWallList;
+
+    public boolean[][] wallList;
 
 
     public Wall(Terminal terminal, String filename) {
 
         try {
-            List<List<Boolean>> yWallList = new ArrayList<List<Boolean>>();
+            wallList = new boolean[30][100];
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNext()) {
-                List<Boolean> xWallList = new ArrayList<Boolean>();
-                char[] row = scanner.nextLine().toCharArray();
                 x = 0;
+                char[] row = scanner.nextLine().toCharArray();
                 for (char c : row) {
                     terminal.moveCursor(x, y);
                     if (c != ' ') {
                         terminal.putCharacter(c);
-                        xWallList.add(true);
+                        wallList[y][x]= false;
                     } else {
-                        xWallList.add(false);
+                        wallList[y][x] = true;
                     }
                     x++;
                 }
-                yWallList.add(xWallList);
                 y++;
             }
 
