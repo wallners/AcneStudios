@@ -6,7 +6,14 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Wall {
+    private void createWall() {
 
-    Scanner scanner = new Scanner(new File("wall.txt"));
+        try {
 
+            Scanner scanner = new Scanner(new File("wall.txt"));
+        } catch (FileNotFoundException e) {
+            System.err.println("FileNotFoundException");
+            System.exit(0);
+        }
     }
+}
