@@ -28,6 +28,7 @@ public class Main {
         while(!gameOver){
 
             updateScreen(player, terminal, enemies);
+            Wall wall = new Wall(terminal, "maze-wall");
             movePlayer(player, terminal);
             gameOver = gameLogic(player, enemies);
         }
