@@ -14,7 +14,7 @@ public class Main {
         terminal.enterPrivateMode();
 
         //Create the player and place it in the middle of the game
-        Player player = new Player(10,20);
+        Player player = new Player(50,20);
 
         //Create the enemies
         Enemy[] enemies = new Enemy[4];
@@ -114,27 +114,28 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         while(key == null);
 
 
-        System.out.println(player.y + " " + player.x);
         switch(key.getKind())
         {
             case ArrowDown:
 
-                if (wall.wallList[player.y +1][player.x]) {
+                if (wall.wallList[player.y + 1][player.x]) {
                     player.y = player.y + 1;
                 }
-
                 break;
             case ArrowUp:
-                if (true)
+                if (wall.wallList[player.y - 1][player.x]) {
                     player.y = player.y - 1;
+                }
                 break;
             case ArrowLeft:
-                if (true)
+                if (wall.wallList[player.y][player.x - 1]) {
                     player.x = player.x - 1;
+                }
                 break;
             case ArrowRight:
-                if (true)
+                if (wall.wallList[player.y][player.x + 1]) {
                     player.x = player.x + 1;
+                }
                 break;
         }
 
