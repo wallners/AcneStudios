@@ -12,6 +12,8 @@ import java.util.Scanner;
 public class Wall {
     int x;
     int y = 0;
+    public List<List<Boolean>> yWallList;
+
 
     public Wall(Terminal terminal, String filename) {
 
@@ -27,8 +29,7 @@ public class Wall {
                     if (c != ' ') {
                         terminal.putCharacter(c);
                         xWallList.add(true);
-                    }
-                    else {
+                    } else {
                         xWallList.add(false);
                     }
                     x++;

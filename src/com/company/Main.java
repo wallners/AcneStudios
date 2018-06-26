@@ -23,13 +23,15 @@ public class Main {
         enemies[2] = new Enemy(5,15);
         enemies[3] = new Enemy(15,15);
 
+        Wall wall = new Wall(terminal, "maze-wall");
+
         boolean gameOver = false;
 
         while(!gameOver){
 
             updateScreen(player, terminal, enemies);
-            Wall wall = new Wall(terminal, "maze-wall");
-            movePlayer(player, terminal);
+            wall = new Wall(terminal, "maze-wall");
+            movePlayer(player, terminal, wall);
             gameOver = gameLogic(player, enemies);
         }
 
@@ -98,7 +100,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
     }
 
     //Check the keyboard and move the player one step
-    private static void movePlayer(Player player, Terminal terminal) {
+    private static void movePlayer(Player player, Terminal terminal, Wall wall) {
 
         // lägg in en try/catch
 
@@ -113,7 +115,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         switch(key.getKind())
         {
             case ArrowDown:
-                if (player.y < 20)
+                if (wall.yWallList.get(0).get(0));
                     player.y = player.y + 1;
                 break;
             case ArrowUp:
