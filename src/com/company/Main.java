@@ -5,20 +5,18 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
         // write your code here
         Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
 
         //Create the player and place it in the middle of the game
-        Player player = new Player(10,10);
+        Player player = new Player(50,10);
 
-        //Create the enemie
+        //Create the enemies
         Enemy[] enemies = new Enemy[4];
         enemies[0] = new Enemy(5,5);
         enemies[1] = new Enemy(15,5);
@@ -46,7 +44,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
     }
 }
 
-    // Move all the enemies and return true if a monster have killed the plauer
+    // Move all the enemies and return true if a monster has killed the player
     private static boolean gameLogic(Player player, Enemy[] enemies) {
 
         //Move the enemies towards the player
@@ -54,7 +52,7 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 
             if (enemy.x != player.x) {
                 int dx = player.x - (int)enemy.x;
-                enemy.x += (dx > 0 ? 1 : -1);
+                enemy.x += (dx > 0 ? 1 : -1); // Förenkla logiken
             }
 
             if (enemy.y != player.y) {
@@ -63,26 +61,26 @@ private static void printText(int x, int y, String message, Terminal terminal) {
             }
 
             //Check if we are game over?
-            if ((int)enemy.x == player.x && (int)enemy.y == player.y)
+            if ((int)enemy.x == player.x && (int)enemy.y == player.y) // ta bort int? null??
                 return true;
         }
         return false;
     }
 
 
-    //Render theplayer and the enemies
+    //Render the player and the enemies
     private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies) {
 
         terminal.clearScreen();
 
         //Print out the player
         terminal.moveCursor(player.x, player.y);
-        terminal.putCharacter('O');
+        terminal.putCharacter('O'); // refaktorisera
 
         //print out the enemies
         for (Enemy enemy : enemies) {
             terminal.moveCursor((int)enemy.x, (int)enemy.y);
-            terminal.putCharacter(enemy.displaychar);
+            terminal.putCharacter(enemy.displaychar); // lägga in eller ta ut från emeny
         }
 
         //Put the cursor on a fixed position after rendering to avoid flickering
@@ -91,7 +89,9 @@ private static void printText(int x, int y, String message, Terminal terminal) {
     }
 
     //Check the keyboard and move the player one step
-    private static void movePlayer(Player player, Terminal terminal) throws InterruptedException {
+    private static void movePlayer(Player player, Terminal terminal) {
+
+        // lägg in en try/catch
 
         //Wait for a key to be pressed
         Key key;
@@ -104,16 +104,20 @@ private static void printText(int x, int y, String message, Terminal terminal) {
         switch(key.getKind())
         {
             case ArrowDown:
-                player.y = (player.y<20) ? player.y+2 : 20;
+                if (player.y < 25)
+                    player.y = player.y + 2;
                 break;
             case ArrowUp:
-                player.y = (player.y>0) ? player.y-2 : 0;
+                if (player.y > 5)
+                    player.y = player.y - 2;
                 break;
             case ArrowLeft:
-                player.x = (player.x>0) ? player.x-2 : 0;
+                if (player.x > 5)
+                    player.x = player.y - 2;
                 break;
             case ArrowRight:
-                player.x = (player.x<20) ? player.x+2 : 20;
+                if (player.x < 95)
+                    player.x = player.x + 2;
                 break;
         }
 
