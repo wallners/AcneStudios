@@ -16,6 +16,17 @@ public class Main {
         Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
 
+        Key key;
+        renderScreenMessage("start-screen", terminal, 6, 4);
+
+        while (true) {
+            key = terminal.readInput();
+            if (key != null) {
+                terminal.clearScreen();
+                break;
+            }
+        }
+
         //Create the player and place it in the middle of the game
         Player player = new Player(50, 20);
 
@@ -41,9 +52,8 @@ public class Main {
                 timeLeft -= 10;
                 Enemy.counter++;
                 wall.renderCoin(terminal);
-
+                key = terminal.readInput();
                 updateScreen(player, terminal, enemies, wall);
-                Key key = terminal.readInput();
                 if (key != null) {
                     movePlayer(player, wall, key);
                 }
@@ -63,22 +73,22 @@ public class Main {
             terminal.clearScreen();
             Thread.sleep(0);
             if (wall.coinsLeft == 0) {
-                printEndScreen("well-done", terminal);
+                renderScreenMessage("well-done", terminal, 10, 19);
             } else {
-                printEndScreen("yousuck", terminal);
+                renderScreenMessage("yousuck", terminal, 10, 19);
             }
         } catch (InterruptedException e) {
         }
     }
 
-    private static void printEndScreen(String endMessageFileName, Terminal terminal) {
+    private static void renderScreenMessage(String endMessageFileName, Terminal terminal, int yShift, int xShift) {
         terminal.clearScreen();
         int x;
         try {
             Scanner scanner = new Scanner(new File(endMessageFileName));
-            int y = 10;
+            int y = yShift;
             while (scanner.hasNext()) {
-                x = 18;
+                x = xShift;
                 char[] row = scanner.nextLine().toCharArray();
                 for (char c : row) {
                     terminal.moveCursor(x, y);
@@ -94,8 +104,6 @@ public class Main {
         }
 
     }
-
-
 
 
     private static void printText(int x, int y, String message, Terminal terminal) {
@@ -115,7 +123,7 @@ public class Main {
             if (enemy.x != player.x) {
 
                 //Switch logic enemy randomly.
-                if (Math.random() < 0.5) {
+                if (Math.random() < 0.8) {
                     diffx = player.x - enemy.x;
                 } else {
                     diffx = enemy.x - player.x;
@@ -130,7 +138,7 @@ public class Main {
             }
 
             if (enemy.y != player.y) {
-                if (Math.random() < 0.9) {
+                if (Math.random() < 0.8) {
                     diffy = player.y - enemy.y;
                 } else {
                     diffy = enemy.y - player.y;
