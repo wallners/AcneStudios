@@ -68,4 +68,7 @@ public class Wall {
             }
         }
     }
+    public void removeCoin(int x, int y){
+        isCoin[y][x] = false;
+    }
 }

@@ -28,14 +28,14 @@ public class Main {
         Wall wall = new Wall("maze-wall");
         wall.renderWall(terminal);
 
-
+        int timeLeft = 100000;
         boolean gameOver = false;
 
-        while (!gameOver) {
+        while (!gameOver && timeLeft > 0) {
 
             try {
                 Thread.sleep(10);
-
+                timeLeft -= 10;
                 Enemy.counter++;
                 wall.renderCoin(terminal);
 
@@ -48,6 +48,8 @@ public class Main {
                     gameOver = gameLogic(player, enemies, wall);
                     Enemy.counter = 0;
                 }
+
+                printText(47, 0, Integer.toString(timeLeft), terminal);
 
             } catch
                     (InterruptedException e) {
@@ -99,6 +101,9 @@ public class Main {
                     enemy.y = enemy.y - 1;
                 }
             }
+            if (wall.isCoin[player.y][player.x]) {
+                wall.removeCoin(player.x, player.y);
+            }
 
 
             //Render the player and the enemies
@@ -117,7 +122,7 @@ public class Main {
 
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
-                if (!wall.isWall[y][x]) {
+                if (!wall.isWall[y][x] && !wall.isCoin[y][x]) {
                     terminal.moveCursor(x, y);
                     terminal.putCharacter(' ');
                 }
