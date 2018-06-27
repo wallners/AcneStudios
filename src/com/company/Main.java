@@ -27,10 +27,10 @@ public class Main {
 
         boolean gameOver = false;
 
+        Wall wall = new Wall(terminal, "maze-wall");
         while(!gameOver){
 
-            updateScreen(player, terminal, enemies);
-            Wall wall = new Wall(terminal, "maze-wall");
+            updateScreen(player, terminal, enemies, wall.isWall);
             movePlayer(player, terminal, wall);
             gameOver = gameLogic(player, enemies, wall);
         }
@@ -83,9 +83,18 @@ private static void printText(int x, int y, String message, Terminal terminal) {
 
 
     //Render the player and the enemies
-    private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies) {
+    private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies, boolean[][] isGameObject) {
 
-        terminal.clearScreen();
+//        terminal.clearScreen();
+
+        for (int y = 0; y < 30; y++) {
+            for (int x = 0; x < 100; x++) {
+                if (!isGameObject[y][x]) {
+                    terminal.moveCursor(x,y);
+                    terminal.putCharacter(' ');
+                }
+            }
+        }
 
         //Print out the player
         terminal.moveCursor(player.x, player.y);
