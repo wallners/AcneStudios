@@ -26,6 +26,7 @@ public class Main {
 
         terminal.setCursorVisible(false);
         Wall wall = new Wall("maze-wall");
+        wall.renderWall(terminal);
 
 
         boolean gameOver = false;
@@ -36,6 +37,7 @@ public class Main {
                 Thread.sleep(10);
 
                 Enemy.counter++;
+                wall.renderCoin(terminal);
 
                 updateScreen(player, terminal, enemies, wall);
                 Key key = terminal.readInput();
@@ -112,7 +114,7 @@ public class Main {
 
 
     private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies, Wall wall) {
-        wall.renderGameObjects(terminal);
+
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
                 if (!wall.isWall[y][x]) {

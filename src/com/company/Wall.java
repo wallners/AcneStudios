@@ -5,16 +5,13 @@ import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Wall {
     int x;
     int y = 0;
-    public boolean[][] isWall;
-    public boolean[][] isCoin;
-
+    public static boolean[][] isWall;
+    public static boolean[][] isCoin;
 
     public Wall(String filename) {
 
@@ -26,10 +23,15 @@ public class Wall {
                 x = 0;
                 char[] row = scanner.nextLine().toCharArray();
                 for (char c : row) {
-                    if (c != ' ') {
-                        isWall[y][x]= true;
+                    if (c == '\u058D') {
+                        isWall[y][x] = true;
                     } else {
                         isWall[y][x] = false;
+                    }
+                    if (c == '+') {
+                        isCoin[y][x] = true;
+                    } else {
+                        isCoin[y][x] = false;
                     }
                     x++;
                 }
@@ -43,12 +45,25 @@ public class Wall {
 
 
     }
-    public void renderGameObjects(Terminal terminal){
+
+    public void renderWall(Terminal terminal) {
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
                 if (isWall[y][x]) {
                     terminal.moveCursor(x, y);
                     terminal.putCharacter('*');
+                }
+            }
+        }
+
+    }
+
+    public void renderCoin(Terminal terminal) {
+        for (int y = 0; y < 30; y++) {
+            for (int x = 0; x < 100; x++) {
+                if (isCoin[y][x]) {
+                    terminal.moveCursor(x, y);
+                    terminal.putCharacter('+');
                 }
             }
         }
