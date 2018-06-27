@@ -28,9 +28,9 @@ public class Wall {
                     terminal.moveCursor(x, y);
                     if (c != ' ') {
                         terminal.putCharacter(c);
-                        isWall[y][x]= false;
+                        isWall[y][x]= true;
                     } else {
-                        isWall[y][x] = true;
+                        isWall[y][x] = false;
                     }
                     x++;
                 }
