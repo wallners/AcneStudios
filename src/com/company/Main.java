@@ -7,7 +7,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -21,11 +20,12 @@ public class Main {
         Player player = new Player(50, 20);
 
         //Create the enemies
-        Enemy[] enemies = new Enemy[4];
-        enemies[0] = new Enemy(5, 5);
-        enemies[1] = new Enemy(15, 5);
-        enemies[2] = new Enemy(5, 15);
-        enemies[3] = new Enemy(15, 15);
+        Enemy[] enemies = new Enemy[5];
+        enemies[0] = new Enemy(15, 15);
+        enemies[1] = new Enemy(95, 27);
+        enemies[2] = new Enemy(5, 27);
+        enemies[3] = new Enemy(95, 15);
+        enemies[4] = new Enemy(5, 15);
 
         terminal.setCursorVisible(false);
         Wall wall = new Wall("maze-wall");
@@ -47,7 +47,7 @@ public class Main {
                 if (key != null) {
                     movePlayer(player, wall, key);
                 }
-                if (Enemy.counter == 10) {
+                if (Enemy.counter == 7) {
                     gameOver = gameLogic(player, enemies, wall);
                     Enemy.counter = 0;
                 }
@@ -114,8 +114,8 @@ public class Main {
         for (Enemy enemy : enemies) {
             if (enemy.x != player.x) {
 
-                //Switch logic enemy randomly. 10 % chance enemy walks in the opposite direction.
-                if (Math.random() < 0.9) {
+                //Switch logic enemy randomly.
+                if (Math.random() < 0.5) {
                     diffx = player.x - enemy.x;
                 } else {
                     diffx = enemy.x - player.x;
