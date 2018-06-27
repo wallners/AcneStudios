@@ -16,7 +16,7 @@ public class Wall {
     public boolean[][] isWall;
 
 
-    public Wall(Terminal terminal, String filename) {
+    public Wall(String filename) {
 
         try {
             isWall = new boolean[30][100];
@@ -25,9 +25,7 @@ public class Wall {
                 x = 0;
                 char[] row = scanner.nextLine().toCharArray();
                 for (char c : row) {
-                    terminal.moveCursor(x, y);
                     if (c != ' ') {
-                        terminal.putCharacter(c);
                         isWall[y][x]= true;
                     } else {
                         isWall[y][x] = false;
@@ -44,10 +42,14 @@ public class Wall {
 
 
     }
-
-
-    private void readWallFromFile() {
-
-
+    public void renderGameObjects(Terminal terminal){
+        for (int y = 0; y < 30; y++) {
+            for (int x = 0; x < 100; x++) {
+                if (isWall[y][x]) {
+                    terminal.moveCursor(x, y);
+                    terminal.putCharacter('*');
+                }
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.nio.charset.Charset;
+import java.util.Random;
 
 public class Main {
 
@@ -24,27 +25,27 @@ public class Main {
         enemies[3] = new Enemy(15, 15);
 
         terminal.setCursorVisible(false);
+        Wall wall = new Wall("maze-wall");
+
 
         boolean gameOver = false;
 
-        Wall wall = new Wall(terminal, "maze-wall");
         while (!gameOver) {
 
             try {
-                Thread.sleep(1);
+                Thread.sleep(10);
 
                 Enemy.counter++;
 
-                updateScreen(player, terminal, enemies, wall.isWall);
-
+                updateScreen(player, terminal, enemies, wall);
                 Key key = terminal.readInput();
                 if (key != null) {
-                    movePlayer(player, terminal, wall);
+                    movePlayer(player, wall, key);
                 }
-                if (Enemy.counter == 100) {
+                if (Enemy.counter == 10) {
                     gameOver = gameLogic(player, enemies, wall);
-                Enemy.counter = 0;
-            }
+                    Enemy.counter = 0;
+                }
 
             } catch
                     (InterruptedException e) {
@@ -63,13 +64,19 @@ public class Main {
 
     // Move all the enemies and return true if a monster has killed the player
     private static boolean gameLogic(Player player, Enemy[] enemies, Wall wall) {
-
-        //Move the enemies towards the player
+        int diffx;
+        int diffy;
 
         for (Enemy enemy : enemies) {
-
             if (enemy.x != player.x) {
-                int diffx = player.x - enemy.x;
+
+                //Switch logic enemy randomly. 10 % chance enemy walks in the opposite direction.
+                if (Math.random() < 0.9) {
+                    diffx = player.x - enemy.x;
+                } else {
+                    diffx = enemy.x - player.x;
+                }
+
                 if (diffx > 0 && !wall.isWall[enemy.y][enemy.x + 1]
                         && !isOtherEnemyNearby(enemy, enemies, enemy.x + 1, enemy.y)) {
                     enemy.x = enemy.x + 1;
@@ -79,7 +86,11 @@ public class Main {
             }
 
             if (enemy.y != player.y) {
-                int diffy = player.y - enemy.y;
+                if (Math.random() < 0.9) {
+                    diffy = player.y - enemy.y;
+                } else {
+                    diffy = enemy.y - player.y;
+                }
                 if (diffy > 0 && !wall.isWall[enemy.y + 1][enemy.x] && !isOtherEnemyNearby(enemy, enemies, enemy.x, enemy.y + 1)) {
                     enemy.y = enemy.y + 1;
                 } else if (!wall.isWall[enemy.y - 1][enemy.x] && !isOtherEnemyNearby(enemy, enemies, enemy.x, enemy.y - 1)) {
@@ -100,13 +111,11 @@ public class Main {
     }
 
 
-    private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies, boolean[][] isGameObject) {
-
-//        terminal.clearScreen();
-
+    private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies, Wall wall) {
+        wall.renderGameObjects(terminal);
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
-                if (!isGameObject[y][x]) {
+                if (!wall.isWall[y][x]) {
                     terminal.moveCursor(x, y);
                     terminal.putCharacter(' ');
                 }
@@ -128,17 +137,11 @@ public class Main {
 
     }
 
-    private static void movePlayer(Player player, Terminal terminal, Wall wall) {
+    private static void movePlayer(Player player, Wall wall, Key key) {
 
         // lägg in en try/catch
 
         //Wait for a key to be pressed
-        Key key;
-        do {
-            //Thread.sleep(5);
-            key = terminal.readInput();
-        }
-        while (key == null);
 
 
         switch (key.getKind()) {
@@ -164,9 +167,6 @@ public class Main {
                 }
                 break;
         }
-
-
-        System.out.println(key.getCharacter() + " " + key.getKind());
     }
 
     private static boolean isOtherEnemyNearby(Enemy enemy, Enemy[] enemies, int nextX, int nextY) {
