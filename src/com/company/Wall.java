@@ -53,7 +53,7 @@ public class Wall {
             for (int x = 0; x < 100; x++) {
                 if (isWall[y][x]) {
                     terminal.moveCursor(x, y);
-                    terminal.putCharacter('*');
+                    terminal.putCharacter('\u2588');
                 }
             }
         }
@@ -65,7 +65,7 @@ public class Wall {
             for (int x = 0; x < 100; x++) {
                 if (isCoin[y][x]) {
                     terminal.moveCursor(x, y);
-                    terminal.putCharacter('+');
+                    terminal.putCharacter('\u25C9');
                 }
             }
         }

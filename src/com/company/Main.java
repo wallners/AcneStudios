@@ -15,9 +15,14 @@ public class Main {
         // write your code here
         Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
+        MP3Player mp3Player = new MP3Player();
 
         Key key;
-        renderScreenMessage("start-screen", terminal, 6, 4);
+        renderScreenMessage("start-screen", terminal, 4, 25);
+        printText(42,24,"Remove all pimples.",terminal);
+        printText(41,26,"Press any key to play.",terminal);
+
+        terminal.setCursorVisible(false);
 
         while (true) {
             key = terminal.readInput();
@@ -57,8 +62,8 @@ public class Main {
                 if (key != null) {
                     movePlayer(player, wall, key);
                 }
-                if (Enemy.counter == 7) {
-                    gameOver = gameLogic(player, enemies, wall);
+                if (Enemy.counter == 9) {
+                    gameOver = gameLogic(player, enemies, wall, mp3Player);
                     Enemy.counter = 0;
                 }
 
@@ -75,7 +80,7 @@ public class Main {
             if (wall.coinsLeft == 0) {
                 renderScreenMessage("well-done", terminal, 10, 19);
             } else {
-                renderScreenMessage("yousuck", terminal, 10, 19);
+                renderScreenMessage("you-suck", terminal, 10, 19);
             }
         } catch (InterruptedException e) {
         }
@@ -115,10 +120,9 @@ public class Main {
     }
 
     // Move all the enemies and return true if a monster has killed the player
-    private static boolean gameLogic(Player player, Enemy[] enemies, Wall wall) {
+    private static boolean gameLogic(Player player, Enemy[] enemies, Wall wall, MP3Player mp3Player) {
         int diffx;
         int diffy;
-
         for (Enemy enemy : enemies) {
             if (enemy.x != player.x) {
 
@@ -150,6 +154,7 @@ public class Main {
                 }
             }
             if (wall.isCoin[player.y][player.x]) {
+                mp3Player.play("splash-sound.mp3");
                 wall.removeCoin(player.x, player.y);
                 wall.coinsLeft--;
             }
