@@ -16,6 +16,7 @@ public class Main {
         Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
         MP3Player mp3Player = new MP3Player();
+  //      mp3Player.play("splash-sound.mp3");
 
         Key key;
         renderScreenMessage("start-screen", terminal, 4, 25);
@@ -62,13 +63,13 @@ public class Main {
                 if (key != null) {
                     movePlayer(player, wall, key);
                 }
-                if (Enemy.counter == 9) {
+                if (Enemy.counter == 10) {
                     gameOver = gameLogic(player, enemies, wall, mp3Player);
                     Enemy.counter = 0;
                 }
 
                 printText(52, 0, "Time left: " + Integer.toString(timeLeft / 10) + " ", terminal);
-                printText(35, 0, " Coins left: " + Integer.toString(wall.coinsLeft) + "   ", terminal);
+                printText(32, 0, " Pimples left: " + Integer.toString(wall.coinsLeft) + "   ", terminal);
 
             } catch
                     (InterruptedException e) {
