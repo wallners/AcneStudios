@@ -49,8 +49,8 @@ public class Main {
                     Enemy.counter = 0;
                 }
 
-                printText(47, 0, "Time left: " + Integer.toString(timeLeft), terminal);
-                printText(10, 0, "Coins left: " + Integer.toString(wall.coinsLeft), terminal);
+                printText(52, 0, "Time left: " + Integer.toString(timeLeft/10) + " ", terminal);
+                printText(35, 0, " Coins left: " + Integer.toString(wall.coinsLeft) + "   ", terminal);
 
             } catch
                     (InterruptedException e) {
