@@ -12,14 +12,15 @@ import java.util.Scanner;
 public class Wall {
     int x;
     int y = 0;
-
     public boolean[][] isWall;
+    public boolean[][] isCoin;
 
 
     public Wall(String filename) {
 
         try {
             isWall = new boolean[30][100];
+            isCoin = new boolean[30][100];
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNext()) {
                 x = 0;
