@@ -4,8 +4,11 @@ import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
@@ -49,15 +52,51 @@ public class Main {
                     Enemy.counter = 0;
                 }
 
-                printText(52, 0, "Time left: " + Integer.toString(timeLeft/10) + " ", terminal);
+                printText(52, 0, "Time left: " + Integer.toString(timeLeft / 10) + " ", terminal);
                 printText(35, 0, " Coins left: " + Integer.toString(wall.coinsLeft) + "   ", terminal);
 
             } catch
                     (InterruptedException e) {
             }
         }
-        printText(5, 5, "Game Over", terminal);
+        try {
+            terminal.clearScreen();
+            Thread.sleep(0);
+            if (wall.coinsLeft == 0) {
+                printEndScreen("well-done", terminal);
+            } else {
+                printEndScreen("yousuck", terminal);
+            }
+        } catch (InterruptedException e) {
+        }
     }
+
+    private static void printEndScreen(String endMessageFileName, Terminal terminal) {
+        terminal.clearScreen();
+        int x;
+        try {
+            Scanner scanner = new Scanner(new File(endMessageFileName));
+            int y = 10;
+            while (scanner.hasNext()) {
+                x = 18;
+                char[] row = scanner.nextLine().toCharArray();
+                for (char c : row) {
+                    terminal.moveCursor(x, y);
+                    terminal.putCharacter(c);
+                    x++;
+                }
+                y++;
+            }
+
+        } catch (FileNotFoundException e) {
+            System.err.println("FileNotFoundException");
+            System.exit(0);
+        }
+
+    }
+
+
+
 
     private static void printText(int x, int y, String message, Terminal terminal) {
 
