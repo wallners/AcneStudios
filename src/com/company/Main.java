@@ -30,11 +30,26 @@ public class Main {
         Wall wall = new Wall(terminal, "maze-wall");
         while (!gameOver) {
 
-            updateScreen(player, terminal, enemies, wall.isWall);
-            movePlayer(player, terminal, wall);
-            gameOver = gameLogic(player, enemies, wall);
-        }
+            try {
+                Thread.sleep(1);
 
+                Enemy.counter++;
+
+                updateScreen(player, terminal, enemies, wall.isWall);
+
+                Key key = terminal.readInput();
+                if (key != null) {
+                    movePlayer(player, terminal, wall);
+                }
+                if (Enemy.counter == 100) {
+                    gameOver = gameLogic(player, enemies, wall);
+                Enemy.counter = 0;
+            }
+
+            } catch
+                    (InterruptedException e) {
+            }
+        }
         printText(5, 5, "Game Over", terminal);
     }
 
