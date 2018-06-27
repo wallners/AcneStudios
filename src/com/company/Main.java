@@ -14,7 +14,7 @@ public class Main {
         terminal.enterPrivateMode();
 
         //Create the player and place it in the middle of the game
-        Player player = new Player(50,20);
+        Player player = new Player(50  ,20);
 
         //Create the enemies
         Enemy[] enemies = new Enemy[4];
