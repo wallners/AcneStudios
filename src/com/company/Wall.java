@@ -12,6 +12,7 @@ public class Wall {
     int y = 0;
     public static boolean[][] isWall;
     public static boolean[][] isCoin;
+    public int coinsLeft;
 
     public Wall(String filename) {
 
@@ -30,6 +31,7 @@ public class Wall {
                     }
                     if (c == '+') {
                         isCoin[y][x] = true;
+                        coinsLeft++;
                     } else {
                         isCoin[y][x] = false;
                     }
@@ -51,7 +53,7 @@ public class Wall {
             for (int x = 0; x < 100; x++) {
                 if (isWall[y][x]) {
                     terminal.moveCursor(x, y);
-                    terminal.putCharacter('*');
+                    terminal.putCharacter('\u2587');
                 }
             }
         }

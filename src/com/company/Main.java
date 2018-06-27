@@ -31,7 +31,7 @@ public class Main {
         int timeLeft = 100000;
         boolean gameOver = false;
 
-        while (!gameOver && timeLeft > 0) {
+        while (!gameOver && timeLeft > 0 && wall.coinsLeft > 0) {
 
             try {
                 Thread.sleep(10);
@@ -49,7 +49,8 @@ public class Main {
                     Enemy.counter = 0;
                 }
 
-                printText(47, 0, Integer.toString(timeLeft), terminal);
+                printText(47, 0, "Time left: " + Integer.toString(timeLeft), terminal);
+                printText(10, 0, "Coins left: " + Integer.toString(wall.coinsLeft), terminal);
 
             } catch
                     (InterruptedException e) {
@@ -103,6 +104,7 @@ public class Main {
             }
             if (wall.isCoin[player.y][player.x]) {
                 wall.removeCoin(player.x, player.y);
+                wall.coinsLeft--;
             }
 
 
