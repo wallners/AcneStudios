@@ -186,7 +186,7 @@ public class Main {
 
         //Print out the player
         terminal.moveCursor(player.x, player.y);
-        terminal.putCharacter('O'); // refaktorisera
+        terminal.putCharacter(player.displaychar); // refaktorisera
 
         //print out the enemies
         for (Enemy enemy : enemies) {
