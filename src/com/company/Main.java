@@ -140,7 +140,7 @@ public class Main {
         int deltaY;
 
         for (Enemy enemy : enemies) {
-            if (Math.random() < 0.005) {
+            if (Math.random() < 0.01) {
                 gameObjects.addPimple(enemy.x, enemy.y);
             }
             if (enemy.x != player.x) {
