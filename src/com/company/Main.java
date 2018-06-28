@@ -78,6 +78,9 @@ public class Main {
                     (InterruptedException e) {
             }
         }
+
+        mp3Player.play("final-screen.mp3");
+
         try {
             terminal.clearScreen();
             Thread.sleep(0);
