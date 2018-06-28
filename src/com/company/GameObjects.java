@@ -7,18 +7,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class Wall {
+public class GameObjects {
     int x;
     int y = 0;
     public static boolean[][] isWall;
-    public static boolean[][] isCoin;
-    public int coinsLeft;
+    public static boolean[][] isPimple;
+    public int pimplesLeft;
 
-    public Wall(String filename) {
+    public GameObjects(String filename) {
 
         try {
             isWall = new boolean[30][100];
-            isCoin = new boolean[30][100];
+            isPimple = new boolean[30][100];
             Scanner scanner = new Scanner(new File(filename));
             while (scanner.hasNext()) {
                 x = 0;
@@ -30,10 +30,10 @@ public class Wall {
                         isWall[y][x] = false;
                     }
                     if (c == '+') {
-                        isCoin[y][x] = true;
-                        coinsLeft++;
+                        isPimple[y][x] = true;
+                        pimplesLeft++;
                     } else {
-                        isCoin[y][x] = false;
+                        isPimple[y][x] = false;
                     }
                     x++;
                 }
@@ -64,14 +64,14 @@ public class Wall {
         terminal.applyForegroundColor(255, 153, 204);
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
-                if (isCoin[y][x]) {
+                if (isPimple[y][x]) {
                     terminal.moveCursor(x, y);
                     terminal.putCharacter('\u25C9');
                 }
             }
         }
     }
-    public void removeCoin(int x, int y){
-        isCoin[y][x] = false;
+    public void removePimple(int x, int y){
+        isPimple[y][x] = false;
     }
 }
