@@ -119,7 +119,7 @@ public class Main {
 
 
     private static void printText(int x, int y, String message, Terminal terminal) {
-
+        terminal.applyForegroundColor(255, 255, 255);
         for (int i = 0; i < message.length(); i++) {
             terminal.moveCursor(x++, y);
             terminal.putCharacter(message.charAt(i));
@@ -191,11 +191,13 @@ public class Main {
         }
 
         //Print out the player
+        terminal.applyForegroundColor(0, 230, 230);
         terminal.moveCursor(player.x, player.y);
         terminal.putCharacter(player.displaychar); // refaktorisera
 
         //print out the enemies
         for (Enemy enemy : enemies) {
+            terminal.applyForegroundColor(128, 255, 0);
             terminal.moveCursor(enemy.x, enemy.y);
             terminal.putCharacter(enemy.displaychar); // lägga in eller ta ut från emeny
         }
