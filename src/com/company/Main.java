@@ -34,6 +34,8 @@ public class Main {
             }
         }
 
+        MyThread threadObject = new MyThread();
+        threadObject.start();
         Player player = new Player(50, 20);
         Enemy[] enemies = new Enemy[5];
         enemies[0] = new Enemy(15, 15);
@@ -74,7 +76,7 @@ public class Main {
                 System.exit(0);
             }
         }
-
+        threadObject.stopMusic();
         mp3Player.play("final-screen.mp3");
 
         try {
