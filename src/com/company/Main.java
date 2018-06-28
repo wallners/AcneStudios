@@ -36,6 +36,8 @@ public class Main {
             }
         }
 
+        terminal.applyBackgroundColor(77, 40, 0);
+
         //Create the player and place it in the middle of the game
         Player player = new Player(50, 20);
 
@@ -95,6 +97,14 @@ public class Main {
 
     private static void renderScreenMessage(String endMessageFileName, Terminal terminal, int yShift, int xShift) {
         terminal.clearScreen();
+        terminal.applyBackgroundColor(0, 0, 0);
+        for (int y = 0; y < 30; y++) {
+            for (int x = 0; x < 100; x++) {
+                    terminal.moveCursor(x, y);
+                    terminal.putCharacter(' ');
+            }
+        }
+
         int x;
         try {
             Scanner scanner = new Scanner(new File(endMessageFileName));
