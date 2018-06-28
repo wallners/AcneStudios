@@ -4,7 +4,7 @@ public class Enemy {
 
     public int x;
     public int y;
-    public char displaychar = 'X';
+    public char displaychar = '\u2620';
     public static int counter;
 
 
