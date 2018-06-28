@@ -1,6 +1,5 @@
 package com.company;
 
-
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.File;
@@ -71,7 +70,8 @@ public class GameObjects {
             }
         }
     }
-    public void removePimple(int x, int y){
+
+    public void removePimple(int x, int y) {
         isPimple[y][x] = false;
     }
 }

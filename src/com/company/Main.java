@@ -34,8 +34,10 @@ public class Main {
             }
         }
 
-        MyThread threadObject = new MyThread();
-        threadObject.start();
+        // Play play screen background music
+        PlayScreenMusicThread playScreenMusicThread = new PlayScreenMusicThread();
+        playScreenMusicThread.start();
+
         Player player = new Player(50, 20);
         Enemy[] enemies = new Enemy[5];
         enemies[0] = new Enemy(15, 15);
@@ -44,6 +46,7 @@ public class Main {
         enemies[3] = new Enemy(95, 15);
         enemies[4] = new Enemy(5, 15);
 
+        // Create walls and pimples
         GameObjects gameObjects = new GameObjects("maze-wall");
         gameObjects.renderWall(terminal);
 
@@ -51,7 +54,6 @@ public class Main {
         boolean killedByMonster = false;
 
         while (!killedByMonster && timeLeft > 0 && gameObjects.pimplesLeft > 0) {
-
             try {
                 Thread.sleep(10);
                 timeLeft -= 10;
@@ -66,7 +68,6 @@ public class Main {
                     killedByMonster = monsterLogic(player, enemies, gameObjects, mp3Player);
                     Enemy.counter = 0;
                 }
-
                 printText(52, 0, "Time left: " + Integer.toString(timeLeft / 10) + " ", terminal);
                 printText(32, 0, " Pimples left: " + Integer.toString(gameObjects.pimplesLeft) + "   ", terminal);
 
@@ -76,7 +77,7 @@ public class Main {
                 System.exit(0);
             }
         }
-        threadObject.stopMusic();
+        playScreenMusicThread.stopMusic();
         mp3Player.play("final-screen.mp3");
 
         try {
@@ -102,10 +103,11 @@ public class Main {
             }
         }
 
-        int x;
         try {
             Scanner scanner = new Scanner(new File(endMessageFileName));
-            int y = yShift;
+            int x;
+            int y;
+            y = yShift;
 
             while (scanner.hasNext()) {
                 x = xShift;
@@ -134,20 +136,20 @@ public class Main {
     }
 
     private static boolean monsterLogic(Player player, Enemy[] enemies, GameObjects gameObjects, MP3Player mp3Player) {
-        int diffx;
-        int diffy;
+        int deltaX;
+        int deltaY;
 
         for (Enemy enemy : enemies) {
             if (enemy.x != player.x) {
-
-                //Make enemy move stupid randomly.
+                //Make enemy move stupidly randomly.
                 if (Math.random() < 0.8) {
-                    diffx = player.x - enemy.x;
+                    deltaX = player.x - enemy.x;
                 } else {
-                    diffx = enemy.x - player.x;
+                    deltaX = enemy.x - player.x;
                 }
 
-                if (diffx > 0
+                // Make enemy move towards player.
+                if (deltaX > 0
                         && !gameObjects.isWall[enemy.y][enemy.x + 1]
                         && !isOtherEnemyNearby(enemy, enemies, enemy.x + 1, enemy.y)) {
                     enemy.x = enemy.x + 1;
@@ -159,11 +161,11 @@ public class Main {
 
             if (enemy.y != player.y) {
                 if (Math.random() < 0.8) {
-                    diffy = player.y - enemy.y;
+                    deltaY = player.y - enemy.y;
                 } else {
-                    diffy = enemy.y - player.y;
+                    deltaY = enemy.y - player.y;
                 }
-                if (diffy > 0 && !gameObjects.isWall[enemy.y + 1][enemy.x]
+                if (deltaY > 0 && !gameObjects.isWall[enemy.y + 1][enemy.x]
                         && !isOtherEnemyNearby(enemy, enemies, enemy.x, enemy.y + 1)) {
                     enemy.y = enemy.y + 1;
                 } else if (!gameObjects.isWall[enemy.y - 1][enemy.x]
@@ -171,17 +173,12 @@ public class Main {
                     enemy.y = enemy.y - 1;
                 }
             }
+
             if (gameObjects.isPimple[player.y][player.x]) {
                 mp3Player.play("splash-sound.mp3");
                 gameObjects.removePimple(player.x, player.y);
                 gameObjects.pimplesLeft--;
             }
-
-
-            //Render the player and the enemies
-
-
-            //Check the keyboard and move the player one step
 
             if (enemy.x == player.x && enemy.y == player.y)
                 return true;
@@ -189,9 +186,7 @@ public class Main {
         return false;
     }
 
-
     private static void updateScreen(Player player, Terminal terminal, Enemy[] enemies, GameObjects gameObjects) {
-
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
                 if (!gameObjects.isWall[y][x] && !gameObjects.isPimple[y][x]) {
@@ -201,33 +196,23 @@ public class Main {
             }
         }
 
-        //Print out the player
+        // render player
         terminal.applyForegroundColor(0, 230, 230);
         terminal.moveCursor(player.x, player.y);
-        terminal.putCharacter(player.displaychar); // refaktorisera
+        terminal.putCharacter(player.displaychar);
 
-        //print out the enemies
+        // render enemies
         for (Enemy enemy : enemies) {
             terminal.applyForegroundColor(128, 255, 0);
             terminal.moveCursor(enemy.x, enemy.y);
             terminal.putCharacter(enemy.displaychar); // lägga in eller ta ut från emeny
         }
-
-        //Put the cursor on a fixed position after rendering to avoid flickering
-        terminal.moveCursor(0, 0);
-
     }
 
     private static void movePlayer(Player player, GameObjects gameObjects, Key key) {
 
-        // lägg in en try/catch
-
-        //Wait for a key to be pressed
-
-
         switch (key.getKind()) {
             case ArrowDown:
-
                 if (!gameObjects.isWall[player.y + 1][player.x]) {
                     player.y = player.y + 1;
                 }
@@ -258,5 +243,4 @@ public class Main {
         }
         return false;
     }
-
 }

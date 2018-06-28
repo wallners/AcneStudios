@@ -7,7 +7,6 @@ public class Player {
     public char displaychar = '\u2646';
 
     public Player(int x, int y) {
-
         this.x = x;
         this.y = y;
     }
