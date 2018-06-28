@@ -73,5 +73,11 @@ public class GameObjects {
 
     public void removePimple(int x, int y) {
         isPimple[y][x] = false;
+        pimplesLeft--;
+    }
+
+    public void addPimple(int x, int y) {
+        isPimple[y][x] = true;
+        pimplesLeft++;
     }
 }

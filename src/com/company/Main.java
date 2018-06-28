@@ -34,7 +34,7 @@ public class Main {
             }
         }
 
-        // Play play screen background music
+        // Play background music during play screen
         PlayScreenMusicThread playScreenMusicThread = new PlayScreenMusicThread();
         playScreenMusicThread.start();
 
@@ -140,6 +140,9 @@ public class Main {
         int deltaY;
 
         for (Enemy enemy : enemies) {
+            if (Math.random() < 0.005) {
+                gameObjects.addPimple(enemy.x, enemy.y);
+            }
             if (enemy.x != player.x) {
                 //Make enemy move stupidly randomly.
                 if (Math.random() < 0.8) {
@@ -177,7 +180,6 @@ public class Main {
             if (gameObjects.isPimple[player.y][player.x]) {
                 mp3Player.play("splash-sound.mp3");
                 gameObjects.removePimple(player.x, player.y);
-                gameObjects.pimplesLeft--;
             }
 
             if (enemy.x == player.x && enemy.y == player.y)
@@ -205,7 +207,7 @@ public class Main {
         for (Enemy enemy : enemies) {
             terminal.applyForegroundColor(128, 255, 0);
             terminal.moveCursor(enemy.x, enemy.y);
-            terminal.putCharacter(enemy.displaychar); // lägga in eller ta ut från emeny
+            terminal.putCharacter(enemy.displaychar);
         }
     }
 
