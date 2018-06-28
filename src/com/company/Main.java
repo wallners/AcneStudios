@@ -58,7 +58,7 @@ public class Main {
                 Thread.sleep(10);
                 timeLeft -= 10;
                 Enemy.counter++;
-                gameObjects.renderCoin(terminal);
+                gameObjects.renderPimple(terminal);
                 key = terminal.readInput();
                 updateScreen(player, terminal, enemies, gameObjects);
                 if (key != null) {

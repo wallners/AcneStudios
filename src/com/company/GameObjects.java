@@ -59,7 +59,7 @@ public class GameObjects {
 
     }
 
-    public void renderCoin(Terminal terminal) {
+    public void renderPimple(Terminal terminal) {
         terminal.applyForegroundColor(255, 153, 204);
         for (int y = 0; y < 30; y++) {
             for (int x = 0; x < 100; x++) {
