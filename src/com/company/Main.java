@@ -16,7 +16,9 @@ public class Main {
         Terminal terminal = TerminalFacade.createTerminal(System.in, System.out, Charset.forName("UTF8"));
         terminal.enterPrivateMode();
         MP3Player mp3Player = new MP3Player();
-  //      mp3Player.play("splash-sound.mp3");
+        mp3Player.play("first-screen.mp3");
+
+
 
         Key key;
         renderScreenMessage("start-screen", terminal, 4, 25);
@@ -29,6 +31,7 @@ public class Main {
             key = terminal.readInput();
             if (key != null) {
                 terminal.clearScreen();
+                mp3Player.stopAll();
                 break;
             }
         }
